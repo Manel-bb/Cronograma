@@ -1,4 +1,10 @@
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cronograma</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <style>
 body{background:#282828;}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -13,7 +19,6 @@ body{background:#282828;}
     justify-content:space-between;
     margin-bottom:1rem
 }
-/*título*/
 .sch-ttl{
     font-size:30px;
     font-weight:500;
@@ -23,7 +28,6 @@ body{background:#282828;}
     color:greenyellow;
     text-shadow:0 0 8px greenyellow;
 }
-/*salvamento*/
 .si{
     opacity:0;
     font-size:12px;
@@ -34,7 +38,6 @@ body{background:#282828;}
     opacity:1;
     color:greenyellow
 }
-/*salvar arquivo*/
 .dl-btn{
     display:inline-flex;
     align-items:center;
@@ -49,7 +52,6 @@ body{background:#282828;}
     font-family:var(--font-sans)
 }
 .dl-btn:hover{background:var(--surface-1)}
-/**/
 .day-sec{
     border:.10px solid var(--border);
     border-radius:12px;
@@ -67,13 +69,11 @@ body{background:#282828;}
     user-select:none
 }
 .day-hdr:hover{background:var(--surface-2)}
-/**/
 .dnr{
     display:flex;
     align-items:center;
     gap:7px
 }
-/*dias da semana*/
 .dnm{
     font-size:18px;
     font-weight:500;
@@ -83,11 +83,8 @@ body{background:#282828;}
 }
 .dnm.done{
     color:greenyellow;
-    /*text-decoration: line-through;
-    text-decoration-color: greenyellow;*/
     text-decoration-thickness: 2px;
 }
-/*indicador hoje*/
 .tb{
     font-size:20px;
     padding:2px 6px;
@@ -96,13 +93,11 @@ body{background:#282828;}
     background:var(--bg-accent);
     font-weight:500
 }
-/**/
 .dbody{
     border-top:.10px solid var(--border);
     padding:6px 10px 8px;
     background:#282828;
 }
-/*barras verticais laterais*/
 .blk{
     padding:8px 10px;
     border-left:6px solid transparent;
@@ -119,10 +114,9 @@ body{background:#282828;}
     gap:20px
 }
 [contenteditable]{outline:none}
-/*horario*/
 .btime{
     font-size:13px;
-    color:white  ;
+    color:white;
     font-family:var(--font-mono);
     white-space:nowrap;
     min-width:108px;
@@ -134,7 +128,6 @@ body{background:#282828;}
     background:var(--surface-1);
     color:white
 }
-/*atividades*/
 .btit{
     font-size:20px;
     font-weight:500;
@@ -145,7 +138,6 @@ body{background:#282828;}
     border-radius:3px
 }
 .btit:focus{background:var(--surface-1)}
-/*categorias*/
 .cat{
     font-size:12px;
     padding:2px 6px;
@@ -157,7 +149,6 @@ body{background:#282828;}
 .cat.estudo{background:var(--bg-accent);color:white}
 .cat.livre{background:var(--bg-success);color:white}
 .cat.pessoal{background:var(--bg-warning);color:white}
-/*deletar*/
 .bdel{
     opacity:1;
     background:none;
@@ -169,10 +160,8 @@ body{background:#282828;}
     font-size:15px;
     line-height:1
 }
-.blk:hover 
-.bdel{opacity:1}
+.blk:hover .bdel{opacity:1}
 .bdel:hover{background:var(--bg-danger);color:red}
-/*anotações das atividades*/
 .bnote{
     font-size:15px;
     color:#c0c0c0;
@@ -183,13 +172,12 @@ body{background:#282828;}
     line-height:1.4;
     border-radius:3px
 }
-.bnote:focus{background:var(--surface-1);color:#c0c0c0 }
+.bnote:focus{background:var(--surface-1);color:#c0c0c0}
 .bnote:empty::before{
     content:'...';
     color:var(--text-disabled);
     pointer-events:none
 }
-/*adicionar bloco de atividade*/
 .addbtn{
     display:flex;
     align-items:center;
@@ -207,40 +195,32 @@ body{background:#282828;}
     margin-top:0px
 }
 .addbtn:hover{background:var(--surface-2);color:greenyellow}
-/*botão de conclusão*/
 .check{
     width:20px;
     height:20px;
-
     border:2px solid white;
     border-radius:50%;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     cursor:pointer;
-
     font-size:40px;
     font-weight:bold;
-
-    color:transparent;      /* Esconde o ✓ quando não concluído */
+    color:transparent;
     transition:.2s;
-
     flex-shrink:0;
 }
-
 .check.done{
     background:#282828;
     border-color:white;
     color:greenyellow;
 }
-
 .check:hover{
     transform:scale(1.1);
 }
-/**/
 </style>
+</head>
+<body>
 
 <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Cronograma semanal</h2>
 
@@ -248,9 +228,8 @@ body{background:#282828;}
 <div class="top">
   <span class="sch-ttl">タイムライン</span>
   <div style="display:flex;align-items:center;gap:10px">
-    <span class="si" id="si">salvamento automático</span>
-    <button class="dl-btn" id="dlbtn">
-    </button>
+    <span class="si" id="si">salvo</span>
+    <button class="dl-btn" id="dlbtn"></button>
   </div>
 </div>
 <div id="grid"></div>
@@ -258,251 +237,244 @@ body{background:#282828;}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const db = window.supabase.createClient(
-    "https://kfpizokoxwiwdpjwdhac.supabase.co",
-    "sb_publishable_-wiUEfcE1bUApqljX_1JtA_v2UIFywD"
-);
 
-(async () => {
+/* ── Supabase ── */
+const ROW_ID = "d736da8d-0126-4bf0-a5fb-e63abedd3377";
+let db;
 
-    console.log("Conectando...");
-
-    const { data, error } = await db
-        .from("cronograma")
-        .select("*");
-
-    console.log("SELECT");
-    console.log(data);
-    console.log(error);
-
-    const { data: novo, error: erroInsert } = await db
-        .from("cronograma")
-        .insert({ dados: { teste: "Funcionou!" } })
-        .select();
-
-    document.body.insertAdjacentHTML('afterbegin',
-        '<pre style="color:lime;background:#111;padding:12px;font-size:13px">' +
-        'INSERT:\n' + JSON.stringify(novo, null, 2) +
-        '\nErro: ' + JSON.stringify(erroInsert, null, 2) +
-        '</pre>'
+if (!window.supabase) {
+    console.error("Supabase não carregou.");
+} else {
+    db = window.supabase.createClient(
+        "https://kfpizokoxwiwdpjwdhac.supabase.co",
+        "sb_publishable_-wiUEfcE1bUApqljX_1JtA_v2UIFywD"
     );
+}
 
-})();
+/* ── Constantes globais ── */
+const DAYS_JS = [6, 0, 1, 2, 3, 4, 5];
+const TODAY   = DAYS_JS[new Date().getDay()];
+const CATS    = ['estudo', 'livre', 'pessoal'];
+const NAMES   = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
-(function(){
-const DAYS_JS=[6,0,1,2,3,4,5];
-const TODAY=DAYS_JS[new Date().getDay()];
-const CATS=['estudo','livre','pessoal'];
-const DEF=[
-  {n:'Monday',b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Programação','estudo','',false]]},
-  {n:'Tuesday',b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Programação','estudo','',false]]},
-  {n:'Wednesday',b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Física ou Biologia','estudo','',false]]},
-  {n:'Thursday',b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Matemática EM ou Química','estudo','',false]]},
-  {n:'Friday',b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Programação','estudo','',false]]},
-  {n:'Saturday',b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Física ou Química','estudo','',false]]},
-  {n:'Sunday',b:[['15h – 20h','Livre — basquete','livre','',false]]}
+const DEF = [
+  {n:'Monday',    b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Programação','estudo','',false]]},
+  {n:'Tuesday',   b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Programação','estudo','',false]]},
+  {n:'Wednesday', b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Física ou Biologia','estudo','',false]]},
+  {n:'Thursday',  b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Matemática EM ou Química','estudo','',false]]},
+  {n:'Friday',    b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Programação','estudo','',false]]},
+  {n:'Saturday',  b:[['13h – 16h','Cálculo I','estudo','',false],['16:40h – 20:30h','Física ou Química','estudo','',false]]},
+  {n:'Sunday',    b:[['15h – 20h','Livre — basquete','livre','',false]]}
 ];
 
 let S;
-function load(){
-  try{const r=localStorage.getItem('cron_v1');
-  S=r?JSON.parse(r):fresh();}catch(e){S=fresh();}
-  const names = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
-  ];
-  S.forEach((day, i) => {
-    day.n = names[i];
-  });
+
+/* ── Load (Supabase → fallback local) ── */
+async function load() {
+    const { data, error } = await db
+        .from("cronograma")
+        .select("dados")
+        .eq("id", ROW_ID)
+        .single();
+
+    if (error || !data || !data.dados) {
+        console.warn("Sem dados no Supabase, usando padrão.", error);
+        S = fresh();
+    } else {
+        S = data.dados;
+    }
+
+    /* Garante que os nomes dos dias estão sempre certos */
+    S.forEach((day, i) => { day.n = NAMES[i]; });
 }
-function fresh(){return DEF.map((d,i)=>({n:d.n,o:i===TODAY,b:d.b.map(b=>[...b])}));}
+
+function fresh() {
+    return DEF.map((d, i) => ({
+        n: d.n,
+        o: i === TODAY,
+        b: d.b.map(b => [...b])
+    }));
+}
+
+/* ── Save (Supabase + localStorage de backup) ── */
 let tm;
-function save(){
-  try{localStorage.setItem('cron_v1',JSON.stringify(S));
-  showOK();}catch(e){}
-}
-function dsave(){
-  clearTimeout(tm);
-  tm=setTimeout(save,700);
-}
-function showOK(){
-  const el=document.getElementById('si');
-  el.textContent='salvo';
-  el.classList.add('ok');
-  clearTimeout(el._t);el._t=setTimeout(()=>{el.textContent='';
-  el.classList.remove('ok');},1500);
+
+async function save() {
+    const { error } = await db
+        .from("cronograma")
+        .upsert({ id: ROW_ID, dados: S });
+
+    if (error) {
+        console.error("Erro ao salvar:", error);
+    } else {
+        localStorage.setItem("cron_v1", JSON.stringify(S));
+        showOK();
+    }
 }
 
-function render(){
-  const g=document.getElementById('grid');g.innerHTML='';
-  S.forEach((day,di)=>{
-    const title = document.querySelector('.sch-ttl');
-    const allDaysCompleted = S.every(day =>
-      day.b.length > 0 &&
-      day.b.every(blk => blk[4] === true)
-    );
-    title.classList.toggle('done', allDaysCompleted);
-    const sec=document.createElement('div');
-      sec.className='day-sec'+(di===TODAY?' today':'');
-    const hdr=document.createElement('div');
-      hdr.className='day-hdr';
-      hdr.setAttribute('role','button');
-      hdr.setAttribute('aria-expanded',day.o?'true':'false');
-    const dnr=document.createElement('div');
-      dnr.className='dnr';
-    const nm=document.createElement('span');
-      nm.className='dnm';
-      nm.textContent=day.n;
+function dsave() {
+    clearTimeout(tm);
+    tm = setTimeout(async () => { await save(); }, 700);
+}
 
-    const completed =
-      day.b.length > 0 &&
-      day.b.every(blk => blk[4] === true);
+function showOK() {
+    const el = document.getElementById('si');
+    el.textContent = 'salvo';
+    el.classList.add('ok');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => {
+        el.textContent = '';
+        el.classList.remove('ok');
+    }, 1500);
+}
 
-    if(completed){
-      nm.classList.add('done');
-    }
+/* ── Render ── */
+function render() {
+    const g = document.getElementById('grid');
+    g.innerHTML = '';
 
-    dnr.appendChild(nm);
-    if(di===TODAY){
-      const b=document.createElement('span');
-      b.className='tb';
-      b.textContent='<<';dnr.appendChild(b);
-    }
-    const cv=document.createElement('i');
-      cv.className='ti ti-chevron-'+(day.o?'up':'down');
-      cv.setAttribute('aria-hidden','true');
-      cv.style.cssText='font-size:14px;color:var(--text-muted)';
-      hdr.appendChild(dnr);hdr.appendChild(cv);
-      hdr.onclick=()=>{S[di].o=!S[di].o;save();render();};
-      sec.appendChild(hdr);
-    if(!day.o){
-      g.appendChild(sec);return;
-    }
-    const body=document.createElement('div');
-      body.className='dbody';
-      day.b.forEach((blk,bi)=>{
-      const el=document.createElement('div');
-        el.className='blk '+blk[2];
-      const row=document.createElement('div');
-        row.className='blkr';
-      /*botão de concluido*/
-      const ck=document.createElement('span');
-        ck.className='check'+(blk[4] ? ' done' : '');
-        ck.textContent='✓';
-        ck.onclick=e=>{
-          e.stopPropagation();
-          S[di].b[bi][4]=!S[di].b[bi][4];
-          save();
-          render();
-        };
-      /**/
-      const t=document.createElement('span');
-        t.className='btime';
-        t.contentEditable=true;
-        t.textContent=blk[0];
-        t.oninput=()=>{
-          S[di].b[bi][0]=t.textContent;
-          dsave();
-        };
-        t.onclick=e=>e.stopPropagation();
-        t.onkeydown=e=>{
-          if(e.key==='Enter'){e.preventDefault();
-            t.blur();}
-          };
-      const ti=document.createElement('span');
-        ti.className='btit';
-        ti.contentEditable=true;
-        ti.textContent=blk[1];
-        ti.oninput=()=>{
-          S[di].b[bi][1]=ti.textContent;
-          dsave();
-        };
-        ti.onclick=e=>e.stopPropagation();
-        ti.onkeydown=e=>{
-          if(e.key==='Enter'){e.preventDefault();
-            ti.blur();}
-          };
-      const tg=document.createElement('span');
-        tg.className='cat '+blk[2];
-        tg.textContent=blk[2];
-        tg.title='Clique para trocar categoria';
-        tg.onclick=e=>{
-          e.stopPropagation();
-          const idx=CATS.indexOf(S[di].b[bi][2]);
-          S[di].b[bi][2]=CATS[(idx+1)%CATS.length];
-          save();
-          render();
-        };
-      const d=document.createElement('button');
-        d.className='bdel';
-        d.textContent = "X";
-        d.setAttribute('aria-label','Remover bloco');
-        d.onclick = e => {
-          e.stopPropagation();
+    const allDone = S.every(day => day.b.length > 0 && day.b.every(blk => blk[4] === true));
+    document.querySelector('.sch-ttl').classList.toggle('done', allDone);
 
-          if (!confirm("Deseja apagar esta atividade?")) {
-            return;
-          }
+    S.forEach((day, di) => {
+        const sec = document.createElement('div');
+        sec.className = 'day-sec' + (di === TODAY ? ' today' : '');
 
-          S[di].b.splice(bi, 1);
-          save();
-          render();
+        const hdr = document.createElement('div');
+        hdr.className = 'day-hdr';
+        hdr.setAttribute('role', 'button');
+        hdr.setAttribute('aria-expanded', day.o ? 'true' : 'false');
+
+        const dnr = document.createElement('div');
+        dnr.className = 'dnr';
+
+        const nm = document.createElement('span');
+        nm.className = 'dnm';
+        nm.textContent = day.n;
+
+        const completed = day.b.length > 0 && day.b.every(blk => blk[4] === true);
+        if (completed) nm.classList.add('done');
+
+        dnr.appendChild(nm);
+
+        if (di === TODAY) {
+            const b = document.createElement('span');
+            b.className = 'tb';
+            b.textContent = '<<';
+            dnr.appendChild(b);
+        }
+
+        const cv = document.createElement('i');
+        cv.className = 'ti ti-chevron-' + (day.o ? 'up' : 'down');
+        cv.setAttribute('aria-hidden', 'true');
+        cv.style.cssText = 'font-size:14px;color:var(--text-muted)';
+
+        hdr.appendChild(dnr);
+        hdr.appendChild(cv);
+        hdr.onclick = () => { S[di].o = !S[di].o; save(); render(); };
+        sec.appendChild(hdr);
+
+        if (!day.o) { g.appendChild(sec); return; }
+
+        const body = document.createElement('div');
+        body.className = 'dbody';
+
+        day.b.forEach((blk, bi) => {
+            const el = document.createElement('div');
+            el.className = 'blk ' + blk[2];
+
+            const row = document.createElement('div');
+            row.className = 'blkr';
+
+            const ck = document.createElement('span');
+            ck.className = 'check' + (blk[4] ? ' done' : '');
+            ck.textContent = '✓';
+            ck.onclick = e => {
+                e.stopPropagation();
+                S[di].b[bi][4] = !S[di].b[bi][4];
+                save(); render();
+            };
+
+            const t = document.createElement('span');
+            t.className = 'btime';
+            t.contentEditable = true;
+            t.textContent = blk[0];
+            t.oninput = () => { S[di].b[bi][0] = t.textContent; dsave(); };
+            t.onclick = e => e.stopPropagation();
+            t.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); t.blur(); } };
+
+            const ti = document.createElement('span');
+            ti.className = 'btit';
+            ti.contentEditable = true;
+            ti.textContent = blk[1];
+            ti.oninput = () => { S[di].b[bi][1] = ti.textContent; dsave(); };
+            ti.onclick = e => e.stopPropagation();
+            ti.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); ti.blur(); } };
+
+            const tg = document.createElement('span');
+            tg.className = 'cat ' + blk[2];
+            tg.textContent = blk[2];
+            tg.title = 'Clique para trocar categoria';
+            tg.onclick = e => {
+                e.stopPropagation();
+                const idx = CATS.indexOf(S[di].b[bi][2]);
+                S[di].b[bi][2] = CATS[(idx + 1) % CATS.length];
+                save(); render();
+            };
+
+            const d = document.createElement('button');
+            d.className = 'bdel';
+            d.textContent = 'X';
+            d.setAttribute('aria-label', 'Remover bloco');
+            d.onclick = e => {
+                e.stopPropagation();
+                if (!confirm("Deseja apagar esta atividade?")) return;
+                S[di].b.splice(bi, 1);
+                save(); render();
+            };
+
+            row.appendChild(ck);
+            row.appendChild(t);
+            row.appendChild(ti);
+            row.appendChild(tg);
+            row.appendChild(d);
+            el.appendChild(row);
+
+            const n = document.createElement('div');
+            n.className = 'bnote';
+            n.contentEditable = true;
+            n.textContent = blk[3];
+            n.oninput = () => { S[di].b[bi][3] = n.textContent; dsave(); };
+            n.onclick = e => e.stopPropagation();
+            el.appendChild(n);
+
+            body.appendChild(el);
+        });
+
+        const ab = document.createElement('button');
+        ab.className = 'addbtn';
+        ab.innerHTML = '<i class="ti ti-plus" aria-hidden="true" style="font-size:14px"></i>.';
+        ab.onclick = () => {
+            S[di].b.push(['', 'Nova atividade', 'estudo', '', false]);
+            save(); render();
+            setTimeout(() => {
+                const es = body.querySelectorAll('.blk');
+                if (es.length) es[es.length - 1].querySelector('.btit').focus();
+            }, 30);
         };
-        /*ordem dos elementos*/
-        row.appendChild(ck);
-        row.appendChild(t);
-        row.appendChild(ti);
-        row.appendChild(tg);
-        row.appendChild(d);
-        /**/
-        el.appendChild(row);
-      const n=document.createElement('div');
-        n.className='bnote';
-        n.contentEditable=true;
-        n.textContent=blk[3];
-        n.oninput=()=>{
-          S[di].b[bi][3]=n.textContent;dsave();
-        };
-        n.onclick=e=>e.stopPropagation();
-        el.appendChild(n);
-        body.appendChild(el);
+
+        body.appendChild(ab);
+        sec.appendChild(body);
+        g.appendChild(sec);
     });
-    const ab=document.createElement('button');
-      ab.className='addbtn';
-      ab.innerHTML='<i class="ti ti-plus" aria-hidden="true" style="font-size:14px"></i>.';
-      ab.onclick=()=>{S[di].b.push([
-        '',
-        'Nova atividade',
-        'estudo',
-        '',
-        false
-      ]);
-      save();
-      render();
-      setTimeout(()=>{
-        const es=body.querySelectorAll('.blk');
-        if(es.length)es[es.length-1].querySelector('.btit').focus();
-      },30);};
-    body.appendChild(ab);
-      sec.appendChild(body);
-      g.appendChild(sec);
-  });
 }
 
-document.getElementById('dlbtn').onclick=function(){
-  const safeState=JSON.stringify(JSON.stringify(S));
-  const css='*{box-sizing:border-box;margin:0;padding:0}\nbody{background:var(--s0);font-family:var(--ff);color:var(--tp);padding:24px;min-height:100vh}\n.wr{max-width:680px;margin:0 auto}\n.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}\nh1{font-size:18px;font-weight:500;color:var(--tp)}\n.si{font-size:12px;color:var(--tm);transition:color .3s}\n.si.ok{color:var(--tsu)}\n:root{--ff:Inter,system-ui,sans-serif;--fm:"JetBrains Mono",monospace;--s0:#f4f4f2;--s1:#fff;--s2:#f7f7f5;--s3:#efefed;--tp:#1a1a19;--ts:#555;--tm:#999;--td:#bbb;--b:rgba(0,0,0,.1);--bs:rgba(0,0,0,.18);--ba:#4a86d8;--bsu:#2a8a50;--bw:#b07520;--bga:#ddeeff;--bgs:#d4f0e0;--bgw:#fff3d0;--bgd:#fde8e8;--ta:#1a5bba;--tsu:#1a6e3a;--tw:#8a5500;--td2:#b53030;--r:6px}\n@media(prefers-color-scheme:dark){:root{--s0:#111;--s1:#1a1a1a;--s2:#222;--s3:#2a2a2a;--tp:#e8e8e6;--ts:#aaa;--tm:#666;--td:#3a3a3a;--b:rgba(255,255,255,.09);--bs:rgba(255,255,255,.18);--ba:#5a8fd8;--bsu:#3a9a60;--bw:#c08530;--bga:#192840;--bgs:#14281e;--bgw:#28200e;--bgd:#281414;--ta:#7aacf0;--tsu:#5ec98a;--tw:#e8c060;--td2:#e88080}}\n.day-sec{border:.5px solid var(--b);border-radius:12px;margin-bottom:5px;overflow:hidden;background:var(--s1)}\n.day-sec.today{border-color:var(--ba)}\n.day-hdr{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;cursor:pointer;user-select:none}\n.day-hdr:hover{background:var(--s2)}\n.dnr{display:flex;align-items:center;gap:7px}\n.dnm{font-size:12px;font-weight:500;color:var(--ts);text-transform:uppercase;letter-spacing:.5px}\n.tb{font-size:10px;padding:2px 6px;border-radius:var(--r);background:var(--bga);color:var(--ta);font-weight:500}\n.dbody{border-top:.5px solid var(--b);padding:6px 10px 8px}\n.blk{padding:8px 10px;border-left:3px solid transparent;margin-bottom:3px;background:var(--s2)}\n.blk:hover{background:var(--s3)}\n.blk.estudo{border-left-color:var(--ba)}\n.blk.livre{border-left-color:var(--bsu)}\n.blk.pessoal{border-left-color:var(--bw)}\n.blkr{display:flex;align-items:center;gap:8px}\n[contenteditable]{outline:none}\n.btime{font-size:11px;color:var(--tm);font-family:var(--fm);white-space:nowrap;min-width:108px;cursor:text;padding:1px 3px;border-radius:3px}\n.btime:focus{background:var(--s1);color:var(--ts)}\n.btit{font-size:14px;font-weight:500;color:var(--tp);flex:1;cursor:text;padding:1px 3px;border-radius:3px}\n.btit:focus{background:var(--s1)}\n.cat{font-size:10px;padding:2px 6px;border-radius:var(--r);cursor:pointer;font-weight:500;white-space:nowrap}\n.cat.estudo{background:var(--bga);color:var(--ta)}\n.cat.livre{background:var(--bgs);color:var(--tsu)}\n.cat.pessoal{background:var(--bgw);color:var(--tw)}\n.bdel{opacity:0;background:none;border:none;cursor:pointer;color:var(--tm);padding:2px 5px;border-radius:3px;font-size:13px;line-height:1}\n.blk:hover .bdel{opacity:1}\n.bdel:hover{background:var(--bgd);color:var(--td2)}\n.bnote{font-size:12px;color:var(--tm);margin-top:4px;padding:1px 3px 1px calc(108px + 16px);cursor:text;min-height:1.2em;line-height:1.4;border-radius:3px}\n.bnote:focus{background:var(--s1);color:var(--ts)}\n.bnote:empty::before{content:"Adicionar nota...";color:var(--td);pointer-events:none}\n.addbtn{display:flex;align-items:center;gap:6px;color:var(--tm);font-size:12px;padding:6px 10px;cursor:pointer;border-radius:var(--r);width:100%;background:none;border:none;text-align:left;font-family:var(--ff);margin-top:2px}\n.addbtn:hover{background:var(--s2);color:var(--ts)}';
-  const js='const TODAY='+TODAY+';const CATS=["estudo","livre","pessoal"];let S;function load(){try{const r=localStorage.getItem("cron_v1");S=r?JSON.parse(r):JSON.parse(JSON.parse('+safeState+'));}catch(e){S=JSON.parse(JSON.parse('+safeState+'));}}let tm;function save(){try{localStorage.setItem("cron_v1",JSON.stringify(S));ok();}catch(e){}}function dsave(){clearTimeout(tm);tm=setTimeout(save,700);}function ok(){const el=document.getElementById("si");el.textContent="salvo";el.classList.add("ok");clearTimeout(el._t);el._t=setTimeout(()=>{el.textContent="salvamento automático";el.classList.remove("ok");},1500);}function render(){const g=document.getElementById("grid");g.innerHTML="";S.forEach((day,di)=>{const sec=document.createElement("div");sec.className="day-sec"+(di===TODAY?" today":"");const hdr=document.createElement("div");hdr.className="day-hdr";const dnr=document.createElement("div");dnr.className="dnr";const nm=document.createElement("span");nm.className="dnm";nm.textContent=day.n;dnr.appendChild(nm);if(di===TODAY){const b=document.createElement("span");b.className="tb";b.textContent="hoje";dnr.appendChild(b);}const cv=document.createElement("span");cv.style.cssText="font-size:11px;color:var(--tm)";cv.textContent=day.o?"▲":"▼";hdr.appendChild(dnr);hdr.appendChild(cv);hdr.onclick=()=>{S[di].o=!S[di].o;save();render();};sec.appendChild(hdr);if(!day.o){g.appendChild(sec);return;}const body=document.createElement("div");body.className="dbody";day.b.forEach((blk,bi)=>{const el=document.createElement("div");el.className="blk "+blk[2];const row=document.createElement("div");row.className="blkr";const t=document.createElement("span");t.className="btime";t.contentEditable=true;t.textContent=blk[0];t.oninput=()=>{S[di].b[bi][0]=t.textContent;dsave();};t.onclick=e=>e.stopPropagation();t.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();t.blur();}};const ti=document.createElement("span");ti.className="btit";ti.contentEditable=true;ti.textContent=blk[1];ti.oninput=()=>{S[di].b[bi][1]=ti.textContent;dsave();};ti.onclick=e=>e.stopPropagation();ti.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();ti.blur();}};const tg=document.createElement("span");tg.className="cat "+blk[2];tg.textContent=blk[2];tg.title="Trocar categoria";tg.onclick=e=>{e.stopPropagation();const idx=CATS.indexOf(S[di].b[bi][2]);S[di].b[bi][2]=CATS[(idx+1)%CATS.length];save();render();};const d=document.createElement("button");d.className="bdel";d.textContent="✕";d.setAttribute("aria-label","Remover");d.onclick=e=>{e.stopPropagation();S[di].b.splice(bi,1);save();render();};row.appendChild(t);row.appendChild(ti);row.appendChild(tg);row.appendChild(d);el.appendChild(row);const n=document.createElement("div");n.className="bnote";n.contentEditable=true;n.textContent=blk[3];n.oninput=()=>{S[di].b[bi][3]=n.textContent;dsave();};n.onclick=e=>e.stopPropagation();el.appendChild(n);body.appendChild(el);});const ab=document.createElement("button");ab.className="addbtn";ab.textContent="+ Adicionar bloco";ab.onclick=()=>{S[di].b.push(["horário","Nova atividade","estudo",""]);save();render();setTimeout(()=>{const es=body.querySelectorAll(".blk");if(es.length)es[es.length-1].querySelector(".btit").focus();},30);};body.appendChild(ab);sec.appendChild(body);g.appendChild(sec);});}load();render();';
-  const html='<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">\n<title>Cronograma</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">\n<style>'+css+'</style>\n</head>\n<body>\n<div class="wr">\n<div class="top"><h1>Cronograma</h1><span class="si" id="si">salvamento automático</span></div>\n<div id="grid"></div>\n</div>\n<script>'+js+'<\/script>\n</body>\n</html>';
-  const blob=new Blob([html],{type:'text/html'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='cronograma.html';a.click();URL.revokeObjectURL(a.href);
-};
-
-load();render();
+/* ── Inicialização ── */
+(async () => {
+    await load();
+    render();
 })();
+
 </script>
+</body>
+</html>
